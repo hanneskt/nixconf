@@ -24,8 +24,10 @@
 
     firewall = {
       enable = true;
+      trustedInterfaces = [ "pterodactyl0" ];
       allowedTCPPorts = [ 80 443 2022 ];
       allowedTCPPortRanges = [ { from = 25000; to = 26000; } ];
+      allowedUDPPortRanges = [ { from = 25000; to = 26000; } ];
     };
   };
 
@@ -123,12 +125,20 @@
     ];
 
     volumes = [
-      "/var/lib/pterodactyl/config.yml:/etc/pterodactyl/config.yml"
       "/var/run/docker.sock:/var/run/docker.sock"
+      "/run/wings:/run/wings"
+      "/tmp/pterodactyl:/tmp/pterodactyl"
+
+      "/var/lib/pterodactyl/config.yml:/etc/pterodactyl/config.yml"
+
       "/var/lib/pterodactyl/volumes:/var/lib/pterodactyl/volumes"
       "/var/lib/pterodactyl/backups:/var/lib/pterodactyl/backups"
     ];
   };
+
+  systemd.tmpfiles.rules = [
+    "d /run/wings 0755 root root -"
+  ];
 
   services.caddy = {
     enable = true;

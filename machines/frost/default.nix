@@ -43,14 +43,79 @@
 
   virtualisation.docker = {
     enable = true;
-    enableOnBoot = true;
     autoPrune.enable = true;
   };
 
-  virtualisation.oci-containers.backend = "docker";
+  systemd.services.init-pterodactyl-network = {
+      description = "Create Docker network for Pterodactyl";
+      after = [ "network.target" "docker.service" ];
+      requires = [ "docker.service" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig.Type = "oneshot";
+      script = ''
+        ${pkgs.docker}/bin/docker network inspect pterodactyl-net >/dev/null 2>&1 || \
+        ${pkgs.docker}/bin/docker network create pterodactyl-net
+      '';
+    };
+
+  virtualisation.oci-containers = {
+    backend = "docker";
+
+    containers = {
+      database = {
+        image = "mariadb:10.5";
+        extraOptions = [ "--network=pterodactyl-net" ];
+        environment = {
+          MYSQL_DATABASE = "panel";
+          MYSQL_USER = "pterodactyl";
+        };
+        environmentFiles = [ "/var/lib/pterodactyl/panel.env" ];
+        volumes = [ "/var/lib/pterodactyl/database:/var/lib/mysql" ];
+        cmd = [ "--default-authentication-plugin=mysql_native_password" ];
+      };
+
+      cache = {
+        image = "redis:alpine";
+        extraOptions = [ "--network=pterodactyl-net" ];
+      };
+
+      panel = {
+        image = "ghcr.io/pyrodactyl-oss/pyrodactyl:v5.0.1";
+        extraOptions = [ "--network=pterodactyl-net" ];
+        ports = [ "127.0.0.1:8000:80" ];
+        environment = {
+          APP_ENV = "production";
+          APP_ENVIRONMENT_ONLY = "false";
+          APP_TIMEZONE = "UTC";
+
+          DB_CONNECTION = "mariadb";
+          DB_HOST = "database";
+          DB_PORT = "3306";
+          DB_USERNAME = "pterodactyl";
+
+          CACHE_DRIVER = "redis";
+          SESSION_DRIVER = "redis";
+          QUEUE_DRIVER = "redis";
+          REDIS_HOST = "cache";
+
+          TRUSTED_PROXIES = "*";
+
+          MAIL_DRIVER = "log";
+        };
+        environmentFiles = [ "/var/lib/pterodactyl/panel.env" ];
+        volumes = [
+          "/var/lib/pterodactyl/var/:/app/var/"
+          "/var/lib/pterodactyl/nginx/:/etc/nginx/http.d/"
+          "/var/lib/pterodactyl/certs/:/etc/letsencrypt/"
+          "/var/lib/pterodactyl/logs/:/app/storage/logs"
+        ];
+        dependsOn = [ "database" "cache" ];
+      };
+    };
+  };
+
   virtualisation.oci-containers.containers.wings = {
     image = "ghcr.io/pterodactyl/wings:v1.12.1";
-    autoStart = true;
 
     ports = [
       "127.0.0.1:9000:443" # API

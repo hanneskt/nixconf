@@ -24,7 +24,7 @@
 
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 80 443 ];
+      allowedTCPPorts = [ 80 443 2022 ];
       allowedTCPPortRanges = [ { from = 25000; to = 26000; } ];
     };
   };
@@ -47,12 +47,33 @@
     autoPrune.enable = true;
   };
 
+  virtualisation.oci-containers.backend = "docker";
+  virtualisation.oci-containers.containers.wings = {
+    image = "ghcr.io/pterodactyl/wings:v1.12.1";
+    autoStart = true;
+
+    ports = [
+      "127.0.0.1:9000:443" # API
+      "0.0.0.0:2022:2022"  # SFTP
+    ];
+
+    volumes = [
+      "/var/lib/pterodactyl/config.yml:/etc/pterodactyl/config.yml"
+      "/var/run/docker.sock:/var/run/docker.sock"
+      "/var/lib/pterodactyl/volumes:/var/lib/pterodactyl/volumes"
+      "/var/lib/pterodactyl/backups:/var/lib/pterodactyl/backups"
+    ];
+  };
+
   services.caddy = {
-      enable = true;
-      virtualHosts."crux.klinckaert.be".extraConfig = ''
-        reverse_proxy 127.0.0.1:8000
-      '';
-    };
+    enable = true;
+    virtualHosts."crux.klinckaert.be".extraConfig = ''
+      reverse_proxy 127.0.0.1:8000
+    '';
+    virtualHosts."frost.klinckaert.be".extraConfig = ''
+      reverse_proxy 127.0.0.1:9000
+    '';
+  };
 
   system.stateVersion = "26.05";
 }

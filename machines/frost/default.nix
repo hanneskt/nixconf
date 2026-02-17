@@ -21,7 +21,15 @@
       prefixLength = 24;
     }];
     nameservers = [ "1.1.1.1" "8.8.8.8" ];
+
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 80 443 ];
+      allowedTCPPortRanges = [ { from = 25000; to = 26000; } ];
+    };
   };
+
+  nix.settings.trusted-users = [ "root" "hannes" ];
 
   services.openssh = {
     enable = true;
@@ -31,6 +39,20 @@
   };
 
   security.sudo.wheelNeedsPassword = false;
+  users.users.hannes.extraGroups = [ "docker" ];
+
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
+    autoPrune.enable = true;
+  };
+
+  services.caddy = {
+      enable = true;
+      virtualHosts."crux.klinckaert.be".extraConfig = ''
+        reverse_proxy 127.0.0.1:8000
+      '';
+    };
 
   system.stateVersion = "26.05";
 }

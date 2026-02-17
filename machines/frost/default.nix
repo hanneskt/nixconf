@@ -10,7 +10,18 @@
   boot.loader.grub.forceInstall = true;
 
   networking.hostName = "frost";
-  networking.networkmanager.enable = true;
+
+  networking = {
+    networkmanager.enable = false;
+    useDHCP = false;
+
+    defaultGateway = "109.71.252.1";
+    interfaces.ens18.ipv4.addresses = [{
+      address = "109.71.252.201";
+      prefixLength = 24;
+    }];
+    nameservers = [ "1.1.1.1" "8.8.8.8" ];
+  };
 
   services.openssh = {
     enable = true;
@@ -21,5 +32,5 @@
 
   security.sudo.wheelNeedsPassword = false;
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 }

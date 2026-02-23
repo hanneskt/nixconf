@@ -29,6 +29,18 @@
     ];
   };
 
+  services.tailscale = {
+    enable = true;
+    disableUpstreamLogging = true;
+  };
+
+  services.caddy = {
+    enable = true;
+    virtualHosts."kot.klinckaert.be".extraConfig = ''
+      reverse_proxy kotpi.net:8123
+    '';
+  };
+
   myServices.pyropanel = {
     enable = true;
     fqdn = "crux.klinckaert.be";

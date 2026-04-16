@@ -49,9 +49,18 @@
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  virtualisation.podman = {
-    enable = true;
-    dockerCompat = true;
+  virtualisation = {
+    podman.enable = true;
+    docker.rootless = {
+      enable = true;
+      setSocketVariable = true;
+      daemon.settings = {
+        dns = [
+          "8.8.8.8"
+          "1.1.1.1"
+        ];
+      };
+    };
   };
 
   programs = {

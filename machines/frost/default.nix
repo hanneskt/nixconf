@@ -65,7 +65,13 @@
     envFile = config.age.secrets."pocket-id.env".path;
   };
 
-  myServices.wakapi.enable = true;
+  age.secrets."wakapi.env" = {
+    file = ../../secrets/wakapi.env.age;
+  };
+  myServices.wakapi = {
+    enable = true;
+    envFile = config.age.secrets."wakapi.env".path;
+  };
   myServices.kuma.enable = true;
 
   system.stateVersion = "26.05";

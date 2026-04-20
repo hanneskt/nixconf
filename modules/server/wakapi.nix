@@ -7,6 +7,14 @@ in
 {
   options.myServices.wakapi = {
     enable = mkEnableOption "Wakapi";
+    domain = mkOption {
+      type = types.str;
+      default = "waka.klinckaert.be";
+    };
+    envFile = mkOption {
+      type = types.str;
+      default = "";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -16,6 +24,7 @@ in
       passwordSalt = "wakapi";
       settings = {
         server = {
+          public_url = "https://${cfg.domain}";
           port = 9090;
         };
         app = {
@@ -23,15 +32,22 @@ in
         };
         security = {
           allow_signup = false;
+          disable_local_auth = true;
+          disable_webauthn = true;
           disable_frontpage = true;
           insecure_cookies = false;
+          oidc_allow_signup = false;
         };
       };
     };
 
+    systemd.services.wakapi = lib.mkIf (cfg.envFile != "") {
+      serviceConfig.EnvironmentFile = [ cfg.envFile ];
+    };
+
     services.caddy = {
       enable = true;
-      virtualHosts."waka.klinckaert.be".extraConfig = ''
+      virtualHosts."${cfg.domain}".extraConfig = ''
         reverse_proxy 127.0.0.1:9090
       '';
     };

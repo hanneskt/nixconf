@@ -10,4 +10,8 @@ in
     hannes
     frost
   ];
+  "wakapi.env.age".publicKeys = [
+    hannes
+    frost
+  ];
 }

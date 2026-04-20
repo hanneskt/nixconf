@@ -11,7 +11,7 @@ in
   options.myServices.pocket-id = {
     enable = lib.mkEnableOption "Pocket ID wrapper";
 
-    fqdn = lib.mkOption {
+    domain = lib.mkOption {
       type = lib.types.str;
       default = "auth.klinckaert.be";
     };

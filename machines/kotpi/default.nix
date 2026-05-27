@@ -10,18 +10,7 @@
 
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
-  networking = {
-    wireless = {
-      enable = true;
-      interfaces = [ "wlan0" ];
-    };
-    firewall = {
-      extraCommands = ''
-        iptables -t mangle -A PREROUTING -i wlan0 -j TTL --ttl-set 64
-        iptables -t mangle -A FORWARD -i wlp1s0u1u3 -o wlan0 -j TTL --ttl-set 64
-      '';
-    };
-  };
+  networking.wireless.enable = true;
   hardware.bluetooth.enable = false;
 
   time.timeZone = "Europe/Brussels";
@@ -52,16 +41,6 @@
     "f ${config.services.home-assistant.configDir}/automations.yaml 0755 hass hass"
   ];
 
-  services.create_ap = {
-    enable = true;
-    settings = {
-      INTERNET_IFACE = "wlan0";
-      WIFI_IFACE = "wlp1s0u1u4";
-      SSID = "potato";
-      PASSPHRASE = "ilikecheese";
-    };
-  };
-
   services.home-assistant = {
     enable = true;
     extraComponents = [
@@ -83,9 +62,16 @@
     };
   };
 
-  services.tailscale = {
+  services.adguardhome = {
     enable = true;
-
+    openFirewall = true;
   };
+  networking.firewall = {
+    allowedTCPPorts = [ 53 ];
+    allowedUDPPorts = [ 53 ];
+  };
+
+  services.tailscale.enable = true;
+
   system.stateVersion = "25.05";
 }

@@ -67,9 +67,13 @@
     openFirewall = true;
   };
   networking.firewall = {
-    allowedTCPPorts = [ 53 ];
+    allowedTCPPorts = [
+      53
+      80
+    ];
     allowedUDPPorts = [ 53 ];
   };
+  security.sudo.wheelNeedsPassword = false;
 
   services.tailscale.enable = true;
 

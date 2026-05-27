@@ -42,7 +42,7 @@
   services.caddy = {
     enable = true;
     virtualHosts."kot.klinckaert.be".extraConfig = ''
-      reverse_proxy kotpi.net:8123
+      reverse_proxy kotpi:8123
     '';
   };
   age.secrets = {

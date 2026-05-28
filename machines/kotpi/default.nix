@@ -47,6 +47,7 @@
       "homeassistant_hardware"
       "airgradient"
       "zha" # zigbee
+      "mqtt"
     ];
     config = {
       default_config = { };
@@ -84,11 +85,35 @@
     };
   };
 
+  services.mosquitto = {
+    enable = true;
+    listeners = [
+      {
+        address = "0.0.0.0";
+        port = 1883;
+        users = {
+          homeassistant = {
+            hashedPassword = "$7$101$rqDs+TeiPsT3b5Z0$VqqCaVCcNgTP7hfBVQbBNww5dFUiKso0lafP1YvFX7ltHECvXwhCauS5wZI5YAg8TrtLWDgpnGQuzXn7PngJLQ==";
+            acl = [ "readwrite #" ];
+          };
+          awtrix = {
+            hashedPassword = "$7$101$rgw1NmLB8MhDCZQX$NYYSYjPBaYXxc2hudF1OoyiGt5zgj5HTxmis4QjmujzpmJQ5SD+X3SorOdBPmhSjOD6Olybk/UGd25wE7AChzg==";
+            acl = [
+              "readwrite awtrix/#"
+              "readwrite homeassistant/#"
+            ];
+          };
+        };
+      }
+    ];
+  };
+
   networking.firewall = {
     allowedTCPPorts = [
       53
       80
       443
+      1883 # mosquitto
     ];
     allowedUDPPorts = [ 53 ];
   };

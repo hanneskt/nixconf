@@ -64,12 +64,31 @@
 
   services.adguardhome = {
     enable = true;
-    openFirewall = true;
+    openFirewall = false;
+    host = "127.0.0.1";
+    port = 3000;
+
+    settings = {
+      querylog.dir_path = "/run/AdGuardHome";
+      statistics.dir_path = "/run/AdGuardHome";
+    };
   };
+
+  services.caddy = {
+    enable = true;
+    # openFirewall = true; # in 26.05
+    virtualHosts."dns.kotpi.local" = {
+      extraConfig = ''
+        reverse_proxy localhost:3000
+      '';
+    };
+  };
+
   networking.firewall = {
     allowedTCPPorts = [
       53
       80
+      443
     ];
     allowedUDPPorts = [ 53 ];
   };

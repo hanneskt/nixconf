@@ -37,6 +37,7 @@
   services.tailscale = {
     enable = true;
     disableUpstreamLogging = true;
+    permitCertUid = "caddy";
   };
 
   services.caddy = {

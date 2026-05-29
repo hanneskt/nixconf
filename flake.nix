@@ -43,39 +43,17 @@
             nix-index-database.nixosModules.default
           ];
         };
-
-      isoConfig =
-        { pkgs, ... }:
-        {
-          users.users.root.openssh.authorizedKeys.keys = [
-            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOEPMl3fFGeNzvprnt5kWBfa9dRahnYCsbD8TNM3i0Jf"
-          ];
-          environment.systemPackages = [ pkgs.vim ];
-          isoImage.squashfsCompression = "zstd -Xcompression-level 6";
-        };
     in
     {
       nixosConfigurations = {
         frost = mkMachine { hostname = "frost"; };
-        # puk = mkMachine { hostname = "puk"; };
+        puk = mkMachine { hostname = "puk"; };
         tatsu = mkMachine { hostname = "tatsu"; };
 
         kotpi = mkMachine {
           hostname = "kotpi";
           system = "aarch64-linux";
         };
-
-        #   minimal-installer = nixpkgs.lib.nixosSystem {
-        #     system = "x86_64-linux";
-        #     modules = [
-        #       "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-        #       isoConfig
-        #     ];
-        #   };
       };
-
-      # packages."x86_64-linux" = {
-      #   minimal-iso = self.nixosConfigurations.minimal-installer.config.system.build.isoImage;
-      # };
     };
 }

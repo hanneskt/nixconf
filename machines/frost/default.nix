@@ -58,6 +58,9 @@
     "silverbullet.env" = {
       file = ../../secrets/silverbullet.env.age;
     };
+    "vikunja.env" = {
+      file = ../../secrets/vikunja.env.age;
+    };
   };
 
   myServices = {
@@ -83,8 +86,10 @@
       enable = true;
       envFile = config.age.secrets."silverbullet.env".path;
     };
-
-    vikunja.enable = true;
+    vikunja = {
+      enable = true;
+      envFile = config.age.secrets."vikunja.env".path;
+    };
     kuma.enable = true;
   };
 

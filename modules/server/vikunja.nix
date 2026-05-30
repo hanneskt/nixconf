@@ -4,21 +4,27 @@
   ...
 }:
 
+with lib;
 let
   cfg = config.myServices.vikunja;
 in
 {
   options.myServices.vikunja = {
-    enable = lib.mkEnableOption "Vikunja";
+    enable = mkEnableOption "Vikunja";
 
-    domain = lib.mkOption {
-      type = lib.types.str;
+    domain = mkOption {
+      type = types.str;
       default = "todo.klinckaert.be";
     };
 
-    port = lib.mkOption {
-      type = lib.types.port;
+    port = mkOption {
+      type = types.port;
       default = 21071;
+    };
+
+    envFile = mkOption {
+      type = types.str;
+      default = "";
     };
   };
 
@@ -36,6 +42,8 @@ in
           enableregistration = false;
         };
       };
+
+      environmentFiles = lib.optional (cfg.envFile != "") cfg.envFile;
     };
 
     services.caddy = {

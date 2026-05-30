@@ -22,4 +22,8 @@ in
     hannes
     frost
   ];
+  "vikunja.env.age".publicKeys = [
+    hannes
+    frost
+  ];
 }

@@ -26,4 +26,8 @@ in
     hannes
     frost
   ];
+  "homepage.env.age".publicKeys = [
+    hannes
+    frost
+  ];
 }

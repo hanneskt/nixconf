@@ -4,6 +4,8 @@
     ./hardware-configuration.nix
     ./../../modules/pelican/panel.nix
     ./../../modules/pelican/wings.nix
+
+    ./../../modules/server/homepage.nix
     ./../../modules/server/kuma.nix
     ./../../modules/server/pocket-id.nix
     ./../../modules/server/silverbullet.nix
@@ -61,6 +63,9 @@
     "vikunja.env" = {
       file = ../../secrets/vikunja.env.age;
     };
+    "homepage.env" = {
+      file = ../../secrets/homepage.env.age;
+    };
   };
 
   myServices = {
@@ -68,7 +73,6 @@
       enable = true;
       domain = "panel.klinckaert.be";
     };
-
     wings = {
       enable = true;
       domain = "wings.frost.klinckaert.be";
@@ -89,6 +93,10 @@
     vikunja = {
       enable = true;
       envFile = config.age.secrets."vikunja.env".path;
+    };
+    homepage = {
+      enable = true;
+      envFile = config.age.secrets."homepage.env".path;
     };
     kuma.enable = true;
   };

@@ -27,7 +27,8 @@
       "wheel"
     ];
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOEPMl3fFGeNzvprnt5kWBfa9dRahnYCsbD8TNM3i0Jf"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOEPMl3fFGeNzvprnt5kWBfa9dRahnYCsbD8TNM3i0Jf" # tatsu
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKk+wKeV03SaP4fJtPJ31P/cpwFi0ZzQeyit6kLgnQHA" # arrax
     ];
   };
 

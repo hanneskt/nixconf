@@ -47,6 +47,10 @@
     virtualHosts."kot.klinckaert.be".extraConfig = ''
       reverse_proxy kotpi:8123
     '';
+    virtualHosts."gallery.cruxkraft.eu".extraConfig = ''
+      root /var/www/gallery
+      file_server
+    '';
   };
   age.secrets = {
     "pocket-id.env" = {

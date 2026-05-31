@@ -2,8 +2,7 @@
   description = "NixOS configurations";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     agenix.url = "github:ryantm/agenix";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
@@ -15,7 +14,6 @@
     {
       self,
       nixpkgs,
-      nixpkgs-unstable,
       agenix,
       nix-index-database,
       ...
@@ -30,10 +28,6 @@
           inherit system;
           specialArgs = {
             inherit inputs;
-            pkgs-unstable = import nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
-            };
           };
           modules = [
             { networking.hostName = hostname; }

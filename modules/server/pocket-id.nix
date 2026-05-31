@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 
@@ -15,16 +16,18 @@ in
       type = lib.types.str;
       default = "auth.klinckaert.be";
     };
-
-    envFile = lib.mkOption {
-      type = lib.types.path;
-    };
   };
 
   config = lib.mkIf cfg.enable {
+    age.secrets."pocket-id.env" = {
+      file = "${inputs.self}/secrets/pocket-id.env.age";
+      owner = "pocket-id";
+      group = "pocket-id";
+    };
+
     services.pocket-id = {
       enable = true;
-      environmentFile = cfg.envFile;
+      environmentFile = config.age.secrets."pocket-id.env".path;
       settings = {
         APP_URL = "https://${cfg.domain}";
         PORT = "21068";

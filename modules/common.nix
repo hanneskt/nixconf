@@ -33,7 +33,7 @@
   };
 
   programs.fish.enable = true;
-  documentation.man.generateCaches = false;
+  documentation.man.cache.enable = false;
 
   environment.systemPackages = with pkgs; [
     helix

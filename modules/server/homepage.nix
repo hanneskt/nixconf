@@ -33,7 +33,7 @@ in
       enable = true;
       listenPort = cfg.port;
 
-      environmentFile = cfg.envFile;
+      environmentFiles = [ cfg.envFile ];
 
       settings = {
         title = "Server Dashboard";

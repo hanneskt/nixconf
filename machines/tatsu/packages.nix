@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }:
+{ pkgs, ... }:
 {
   documentation.dev.enable = true;
   users.users.hannes.packages = with pkgs; [
@@ -26,7 +26,7 @@
     alacritty
     firefox
     spotify
-    signal-desktop-bin
+    signal-desktop
     bitwarden-desktop
     obsidian
     logseq
@@ -55,13 +55,13 @@
 
     vscode.fhs
     zed-editor
-    pkgs-unstable.antigravity
+    antigravity
     pika-backup
 
     # dev
     git
     delta # diffing tool
-    pkgs-unstable.jujutsu
+    jujutsu
     gcc
     gnumake
     wakatime-cli

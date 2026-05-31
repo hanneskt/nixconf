@@ -53,11 +53,6 @@
     '';
   };
   age.secrets = {
-    "pocket-id.env" = {
-      file = ../../secrets/pocket-id.env.age;
-      owner = "pocket-id";
-      group = "pocket-id";
-    };
     "wakapi.env" = {
       file = ../../secrets/wakapi.env.age;
     };
@@ -81,11 +76,8 @@
       enable = true;
       domain = "wings.frost.klinckaert.be";
     };
+    pocket-id.enable = true;
 
-    pocket-id = {
-      enable = true;
-      envFile = config.age.secrets."pocket-id.env".path;
-    };
     wakapi = {
       enable = true;
       envFile = config.age.secrets."wakapi.env".path;

@@ -21,7 +21,6 @@ in
     services.wakapi = {
       enable = true;
       database.dialect = "sqlite3";
-      passwordSalt = "wakapi";
       settings = {
         server = {
           public_url = "https://${cfg.domain}";

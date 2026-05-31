@@ -7,14 +7,15 @@
 
 with lib;
 let
-  cfg = config.myServices.wings;
+  cfg = config.hannes.services.wings;
 in
 {
-  options.myServices.wings = {
-    enable = mkEnableOption "Pelican Wings Node";
+  options.hannes.services.wings = {
+    enable = mkEnableOption "Pelican Wings";
+
     domain = mkOption {
       type = types.str;
-      description = "The domain name for this Wings node.";
+      default = "wings.frost.klinckaert.be";
     };
   };
 
@@ -23,9 +24,7 @@ in
       trustedInterfaces = [ "wings0" ];
 
       allowedTCPPorts = [
-        80
-        443
-        2022
+        2022 # sftp
       ];
       allowedTCPPortRanges = [
         {

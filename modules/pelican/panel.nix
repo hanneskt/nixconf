@@ -6,14 +6,15 @@
 
 with lib;
 let
-  cfg = config.myServices.pelicanpanel;
+  cfg = config.hannes.services.pelicanpanel;
 in
 {
-  options.myServices.pelicanpanel = {
-    enable = mkEnableOption "Pelican Panel Stack";
+  options.hannes.services.pelicanpanel = {
+    enable = mkEnableOption "Pelican Panel";
+
     domain = mkOption {
       type = types.str;
-      description = "The domain name for the Pelican Panel.";
+      default = "panel.cruxkraft.eu";
     };
   };
 

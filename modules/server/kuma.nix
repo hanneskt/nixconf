@@ -2,25 +2,30 @@
 
 with lib;
 let
-  cfg = config.myServices.kuma;
+  cfg = config.hannes.services.kuma;
 in
 {
-  options.myServices.kuma = {
+  options.hannes.services.kuma = {
     enable = mkEnableOption "Uptime Kuma";
+
+    port = mkOption {
+      type = types.port;
+      default = 21067;
+    };
   };
 
   config = mkIf cfg.enable {
     services.uptime-kuma = {
       enable = true;
       settings = {
-        PORT = "21067";
+        PORT = toString cfg.port;
       };
     };
 
     services.caddy = {
       enable = true;
       virtualHosts."uptime.klinckaert.be".extraConfig = ''
-        reverse_proxy 127.0.0.1:21067
+        reverse_proxy 127.0.0.1:${toString cfg.port}
       '';
     };
   };

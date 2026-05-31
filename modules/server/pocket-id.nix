@@ -5,32 +5,40 @@
   ...
 }:
 
+with lib;
 let
-  cfg = config.myServices.pocket-id;
+  cfg = config.hannes.services.pocket-id;
+  secretEnv = "pocket-id.env";
 in
 {
-  options.myServices.pocket-id = {
-    enable = lib.mkEnableOption "Pocket ID";
+  options.hannes.services.pocket-id = {
+    enable = mkEnableOption "Pocket ID";
 
-    domain = lib.mkOption {
-      type = lib.types.str;
+    domain = mkOption {
+      type = types.str;
       default = "auth.klinckaert.be";
+    };
+
+    port = mkOption {
+      type = types.port;
+      default = 21068;
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    age.secrets."pocket-id.env" = {
-      file = "${inputs.self}/secrets/pocket-id.env.age";
+  config = mkIf cfg.enable {
+    age.secrets.${secretEnv} = {
+      file = "${inputs.self}/secrets/${secretEnv}.age";
       owner = "pocket-id";
       group = "pocket-id";
     };
 
     services.pocket-id = {
       enable = true;
-      environmentFile = config.age.secrets."pocket-id.env".path;
+      environmentFile = config.age.secrets.${secretEnv}.path;
+
       settings = {
         APP_URL = "https://${cfg.domain}";
-        PORT = "21068";
+        PORT = cfg.port;
         HOST = "127.0.0.1";
         TRUST_PROXY = true;
         ANALYTICS_DISABLED = true;
@@ -40,7 +48,7 @@ in
     services.caddy = {
       enable = true;
       virtualHosts."${cfg.domain}".extraConfig = ''
-        reverse_proxy 127.0.0.1:21068
+        reverse_proxy 127.0.0.1:${toString cfg.port}
       '';
     };
   };

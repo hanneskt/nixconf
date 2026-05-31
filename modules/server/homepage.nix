@@ -1,4 +1,5 @@
 {
+  inputs,
   config,
   lib,
   ...
@@ -6,10 +7,11 @@
 
 with lib;
 let
-  cfg = config.myServices.homepage;
+  cfg = config.hannes.services.homepage;
+  secretEnv = "homepage.env";
 in
 {
-  options.myServices.homepage = {
+  options.hannes.services.homepage = {
     enable = mkEnableOption "Homepage Dashboard";
 
     domain = mkOption {
@@ -21,19 +23,16 @@ in
       type = types.port;
       default = 8082;
     };
-
-    envFile = mkOption {
-      type = types.str;
-      default = "";
-    };
   };
 
   config = mkIf cfg.enable {
+    age.secrets.${secretEnv}.file = "${inputs.self}/secrets/${secretEnv}.age";
+
     services.homepage-dashboard = {
       enable = true;
-      listenPort = cfg.port;
+      environmentFiles = [ config.age.secrets.${secretEnv}.path ];
 
-      environmentFiles = [ cfg.envFile ];
+      listenPort = cfg.port;
 
       settings = {
         title = "Server Dashboard";

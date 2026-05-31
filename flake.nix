@@ -22,15 +22,14 @@
       mkMachine =
         hostname:
         nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-          };
+          specialArgs = { inherit inputs; };
+
           modules = [
             { networking.hostName = hostname; }
             agenix.nixosModules.default
             nix-index-database.nixosModules.default
-            ./modules/common.nix
-            ./machines/${hostname}/default.nix
+            ./modules
+            ./machines/${hostname}
           ];
         };
 

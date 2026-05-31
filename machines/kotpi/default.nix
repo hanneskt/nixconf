@@ -5,12 +5,11 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./../../modules/server/ssh.nix
   ];
 
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
-  networking.wireless.enable = true;
+  networking.wireless.enable = false;
   hardware.bluetooth.enable = false;
 
   time.timeZone = "Europe/Brussels";
@@ -40,6 +39,8 @@
   systemd.tmpfiles.rules = [
     "f ${config.services.home-assistant.configDir}/automations.yaml 0755 hass hass"
   ];
+
+  hannes.services.openssh.enable = true;
 
   services.home-assistant = {
     enable = true;
@@ -77,7 +78,7 @@
 
   services.caddy = {
     enable = true;
-    # openFirewall = true; # in 26.05
+    openFirewall = true;
     virtualHosts."dns.kotpi.local" = {
       extraConfig = ''
         reverse_proxy localhost:3000
@@ -110,12 +111,10 @@
 
   networking.firewall = {
     allowedTCPPorts = [
-      53
-      80
-      443
+      53 # adguard
       1883 # mosquitto
     ];
-    allowedUDPPorts = [ 53 ];
+    allowedUDPPorts = [ 53 ]; # adguard
   };
   security.sudo.wheelNeedsPassword = false;
 

@@ -1,40 +1,40 @@
 {
+  inputs,
   config,
   lib,
   ...
 }:
 
+with lib;
 let
-  cfg = config.myServices.silverbullet;
+  cfg = config.hannes.services.silverbullet;
+  secretEnv = "silverbullet.env";
 in
 {
-  options.myServices.silverbullet = {
-    enable = lib.mkEnableOption "Silverbullet wrapper";
+  options.hannes.services.silverbullet = {
+    enable = mkEnableOption "Silverbullet";
 
-    domain = lib.mkOption {
-      type = lib.types.str;
+    domain = mkOption {
+      type = types.str;
       default = "notes.klinckaert.be";
     };
 
-    port = lib.mkOption {
-      type = lib.types.port;
+    port = mkOption {
+      type = types.port;
       default = 21072;
-    };
-
-    envFile = lib.mkOption {
-      type = lib.types.nullOr lib.types.path;
-      default = null;
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
+    age.secrets.${secretEnv}.file = "${inputs.self}/secrets/${secretEnv}.age";
+
     services.silverbullet = {
       enable = true;
 
       listenPort = cfg.port;
       listenAddress = "127.0.0.1";
 
-      envFile = cfg.envFile;
+      envFile = config.age.secrets.${secretEnv}.path;
     };
 
     services.caddy = {

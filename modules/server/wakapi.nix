@@ -1,30 +1,43 @@
-{ config, lib, ... }:
+{
+  inputs,
+  config,
+  lib,
+  ...
+}:
 
 with lib;
 let
-  cfg = config.myServices.wakapi;
+  cfg = config.hannes.services.wakapi;
+  secretEnv = "wakapi.env";
 in
 {
-  options.myServices.wakapi = {
+  options.hannes.services.wakapi = {
     enable = mkEnableOption "Wakapi";
+
     domain = mkOption {
       type = types.str;
       default = "waka.klinckaert.be";
     };
-    envFile = mkOption {
-      type = types.str;
-      default = "";
+
+    port = mkOption {
+      type = types.port;
+      default = 9090;
     };
   };
 
   config = mkIf cfg.enable {
+    age.secrets.${secretEnv}.file = "${inputs.self}/secrets/${secretEnv}.age";
+
     services.wakapi = {
       enable = true;
+      environmentFiles = [ config.age.secrets.${secretEnv}.path ];
+
       database.dialect = "sqlite3";
+
       settings = {
         server = {
           public_url = "https://${cfg.domain}";
-          port = 9090;
+          port = cfg.port;
         };
         app = {
           leaderboard_enabled = false;
@@ -40,14 +53,10 @@ in
       };
     };
 
-    systemd.services.wakapi = lib.mkIf (cfg.envFile != "") {
-      serviceConfig.EnvironmentFile = [ cfg.envFile ];
-    };
-
     services.caddy = {
       enable = true;
       virtualHosts."${cfg.domain}".extraConfig = ''
-        reverse_proxy 127.0.0.1:9090
+        reverse_proxy 127.0.0.1:${toString cfg.port}
       '';
     };
   };

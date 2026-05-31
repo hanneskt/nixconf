@@ -1,9 +1,7 @@
-{ config, ... }:
+{ ... }:
 {
   imports = [
     ./hardware-configuration.nix
-    ./../../modules/server/ssh.nix
-    ./../../modules/server/n8n.nix
   ];
 
   boot.loader = {
@@ -12,9 +10,13 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  myServices.n8n = {
-    enable = true;
-    domain = "n8n.puk.local";
+  hannes.services = {
+    openssh.enable = true;
+
+    n8n = {
+      enable = true;
+      domain = "n8n.puk.local";
+    };
   };
 
   services.tailscale = {

@@ -1,17 +1,7 @@
-{ config, ... }:
+{ ... }:
 {
   imports = [
     ./hardware-configuration.nix
-    ./../../modules/pelican/panel.nix
-    ./../../modules/pelican/wings.nix
-
-    ./../../modules/server/homepage.nix
-    ./../../modules/server/kuma.nix
-    ./../../modules/server/pocket-id.nix
-    ./../../modules/server/silverbullet.nix
-    ./../../modules/server/ssh.nix
-    ./../../modules/server/vikunja.nix
-    ./../../modules/server/wakapi.nix
   ];
 
   boot.loader.grub.enable = true;
@@ -44,66 +34,36 @@
 
   services.caddy = {
     enable = true;
-    virtualHosts."kot.klinckaert.be".extraConfig = ''
-      reverse_proxy kotpi:8123
-    '';
-    virtualHosts."gallery.cruxkraft.eu".extraConfig = ''
-      root /var/www/gallery
-      file_server
-    '';
-  };
-  age.secrets = {
-    "wakapi.env" = {
-      file = ../../secrets/wakapi.env.age;
-    };
-    "silverbullet.env" = {
-      file = ../../secrets/silverbullet.env.age;
-    };
-    "vikunja.env" = {
-      file = ../../secrets/vikunja.env.age;
-    };
-    "homepage.env" = {
-      file = ../../secrets/homepage.env.age;
+    openFirewall = true;
+
+    virtualHosts = {
+      "kot.klinckaert.be".extraConfig = ''
+        reverse_proxy kotpi:8123
+      '';
+
+      "gallery.cruxkraft.eu".extraConfig = ''
+        root /var/www/gallery
+        file_server
+      '';
     };
   };
 
-  myServices = {
-    pelicanpanel = {
-      enable = true;
-      domain = "panel.klinckaert.be";
-    };
-    wings = {
-      enable = true;
-      domain = "wings.frost.klinckaert.be";
-    };
+  hannes.services = {
+    openssh.enable = true;
+
+    pelicanpanel.enable = true;
+    wings.enable = true;
+
     pocket-id.enable = true;
 
-    wakapi = {
-      enable = true;
-      envFile = config.age.secrets."wakapi.env".path;
-    };
-    silverbullet = {
-      enable = true;
-      envFile = config.age.secrets."silverbullet.env".path;
-    };
-    vikunja = {
-      enable = true;
-      envFile = config.age.secrets."vikunja.env".path;
-    };
-    homepage = {
-      enable = true;
-      envFile = config.age.secrets."homepage.env".path;
-    };
+    homepage.enable = true;
     kuma.enable = true;
-  };
-
-  users.users.breakglass = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    silverbullet.enable = true;
+    vikunja.enable = true;
+    wakapi.enable = true;
   };
 
   security.sudo.wheelNeedsPassword = false;
-  users.users.hannes.extraGroups = [ "docker" ];
 
   system.stateVersion = "26.05";
 }

@@ -4,25 +4,26 @@
   ...
 }:
 
+with lib;
 let
-  cfg = config.myServices.n8n;
+  cfg = config.hannes.services.n8n;
 in
 {
-  options.myServices.n8n = {
-    enable = lib.mkEnableOption "n8n";
+  options.hannes.services.n8n = {
+    enable = mkEnableOption "n8n";
 
-    domain = lib.mkOption {
-      type = lib.types.str;
+    domain = mkOption {
+      type = types.str;
       default = "n8n.klinckaert.be";
     };
 
-    port = lib.mkOption {
-      type = lib.types.port;
+    port = mkOption {
+      type = types.port;
       default = 5678;
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services.n8n = {
       enable = true;
 

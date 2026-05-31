@@ -1,4 +1,5 @@
 {
+  inputs,
   config,
   lib,
   ...
@@ -6,10 +7,11 @@
 
 with lib;
 let
-  cfg = config.myServices.vikunja;
+  cfg = config.hannes.services.vikunja;
+  secretEnv = "vikunja.env";
 in
 {
-  options.myServices.vikunja = {
+  options.hannes.services.vikunja = {
     enable = mkEnableOption "Vikunja";
 
     domain = mkOption {
@@ -21,16 +23,14 @@ in
       type = types.port;
       default = 21071;
     };
-
-    envFile = mkOption {
-      type = types.str;
-      default = "";
-    };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
+    age.secrets.${secretEnv}.file = "${inputs.self}/secrets/${secretEnv}.age";
+
     services.vikunja = {
       enable = true;
+      environmentFiles = [ config.age.secrets.${secretEnv}.path ];
 
       frontendScheme = "https";
       frontendHostname = cfg.domain;
@@ -42,8 +42,6 @@ in
           enableregistration = false;
         };
       };
-
-      environmentFiles = lib.optional (cfg.envFile != "") cfg.envFile;
     };
 
     services.caddy = {

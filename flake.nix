@@ -33,13 +33,13 @@
             ./machines/${hostname}/default.nix
           ];
         };
+
+      # get machines by from the machines directory
+      machineContents = builtins.readDir ./machines;
+      machineDirs = nixpkgs.lib.filterAttrs (name: type: type == "directory") machineContents;
+      hosts = builtins.attrNames machineDirs;
     in
     {
-      nixosConfigurations = nixpkgs.lib.genAttrs [
-        "frost"
-        "kotpi"
-        "puk"
-        "tatsu"
-      ] mkMachine;
+      nixosConfigurations = nixpkgs.lib.genAttrs hosts mkMachine;
     };
 }

@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./gatus.nix
     ./homepage.nix
     ./kuma.nix
     ./n8n.nix

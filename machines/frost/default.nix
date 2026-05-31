@@ -51,12 +51,13 @@
   hannes.services = {
     openssh.enable = true;
 
+    gatus.enable = true;
+
     pelicanpanel.enable = true;
     wings.enable = true;
 
     pocket-id.enable = true;
 
-    homepage.enable = true;
     kuma.enable = true;
     silverbullet.enable = true;
     vikunja.enable = true;

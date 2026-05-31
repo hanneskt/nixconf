@@ -27,9 +27,8 @@
     firefox
     spotify
     signal-desktop
-    bitwarden-desktop
     obsidian
-    logseq
+    # logseq
     wireshark
     nautilus
     libqalculate

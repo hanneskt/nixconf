@@ -10,7 +10,7 @@ let
 in
 {
   options.myServices.pocket-id = {
-    enable = lib.mkEnableOption "Pocket ID wrapper";
+    enable = lib.mkEnableOption "Pocket ID";
 
     domain = lib.mkOption {
       type = lib.types.str;

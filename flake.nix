@@ -20,34 +20,26 @@
     }@inputs:
     let
       mkMachine =
-        {
-          hostname,
-          system ? "x86_64-linux",
-        }:
+        hostname:
         nixpkgs.lib.nixosSystem {
-          inherit system;
           specialArgs = {
             inherit inputs;
           };
           modules = [
             { networking.hostName = hostname; }
             agenix.nixosModules.default
+            nix-index-database.nixosModules.default
             ./modules/common.nix
             ./machines/${hostname}/default.nix
-            nix-index-database.nixosModules.default
           ];
         };
     in
     {
-      nixosConfigurations = {
-        frost = mkMachine { hostname = "frost"; };
-        puk = mkMachine { hostname = "puk"; };
-        tatsu = mkMachine { hostname = "tatsu"; };
-
-        kotpi = mkMachine {
-          hostname = "kotpi";
-          system = "aarch64-linux";
-        };
-      };
+      nixosConfigurations = nixpkgs.lib.genAttrs [
+        "frost"
+        "kotpi"
+        "puk"
+        "tatsu"
+      ] mkMachine;
     };
 }

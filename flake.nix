@@ -3,11 +3,15 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+
     agenix.url = "github:ryantm/agenix";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-wsl.url = "github:nix-community/NixOS-WSL";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -16,6 +20,7 @@
       nixpkgs,
       agenix,
       nix-index-database,
+      nixos-wsl,
       ...
     }@inputs:
     let
@@ -28,6 +33,7 @@
             { networking.hostName = hostname; }
             agenix.nixosModules.default
             nix-index-database.nixosModules.default
+            nixos-wsl.nixosModules.default
             ./modules
             ./machines/${hostname}
           ];

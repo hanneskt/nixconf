@@ -58,7 +58,6 @@
 
     pocket-id.enable = true;
 
-    kuma.enable = true;
     silverbullet.enable = true;
     vikunja.enable = true;
     wakapi.enable = true;

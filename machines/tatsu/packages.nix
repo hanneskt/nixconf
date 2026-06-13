@@ -27,7 +27,7 @@
     firefox
     spotify
     signal-desktop
-    obsidian
+    # obsidian
     # logseq
     wireshark
     nautilus
@@ -35,11 +35,11 @@
     loupe
 
     # cli
-    yazi
+    # yazi
     zoxide
     bat
     tldr
-    taskwarrior3
+    # taskwarrior3
     atuin
     man-pages
     man-pages-posix

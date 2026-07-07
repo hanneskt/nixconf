@@ -4,30 +4,27 @@ let
 
   # machines
   frost = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAVm/ig/PgoetxxWvGgtxXLSFBPDsK9zq322/GLZFiWS";
+
+  allKeys = [
+    hannes
+    frost
+  ];
+
+  secrets = [
+    "pocket-id.env.age"
+    "wakapi.env.age"
+    "tududi.env.age"
+    "silverbullet.env.age"
+    "vikunja.env.age"
+    "homepage.env.age"
+    "mealie.env.age"
+  ];
 in
-{
-  "pocket-id.env.age".publicKeys = [
-    hannes
-    frost
-  ];
-  "wakapi.env.age".publicKeys = [
-    hannes
-    frost
-  ];
-  "tududi.env.age".publicKeys = [
-    hannes
-    frost
-  ];
-  "silverbullet.env.age".publicKeys = [
-    hannes
-    frost
-  ];
-  "vikunja.env.age".publicKeys = [
-    hannes
-    frost
-  ];
-  "homepage.env.age".publicKeys = [
-    hannes
-    frost
-  ];
-}
+builtins.listToAttrs (
+  map (name: {
+    inherit name;
+    value = {
+      publicKeys = allKeys;
+    };
+  }) secrets
+)

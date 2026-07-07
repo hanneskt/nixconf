@@ -61,7 +61,13 @@
     silverbullet.enable = true;
     vikunja.enable = true;
     wakapi.enable = true;
+
+    mealie.enable = true;
   };
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "pnpm-10.29.2"
+  ];
 
   security.sudo.wheelNeedsPassword = false;
 

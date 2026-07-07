@@ -49,6 +49,9 @@
       "airgradient"
       "zha" # zigbee
       "mqtt"
+      "ollama"
+      "adguard"
+      "met"
     ];
     config = {
       default_config = { };

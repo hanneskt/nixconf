@@ -1,30 +1,35 @@
 let
-  # users
+  # Users
   hannes = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOEPMl3fFGeNzvprnt5kWBfa9dRahnYCsbD8TNM3i0Jf";
 
-  # machines
+  # Machines
   frost = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAVm/ig/PgoetxxWvGgtxXLSFBPDsK9zq322/GLZFiWS";
+  puk = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJwXwQRCvPPqhIXPrrttY4cLmoTRC/66b8LovMeLwU4o";
 
-  allKeys = [
-    hannes
-    frost
-  ];
+  mkSecrets =
+    machineKey: secretFiles:
+    builtins.listToAttrs (
+      map (name: {
+        inherit name;
+        value = {
+          publicKeys = [
+            hannes
+            machineKey
+          ];
+        };
+      }) secretFiles
+    );
 
-  secrets = [
-    "pocket-id.env.age"
-    "wakapi.env.age"
-    "tududi.env.age"
-    "silverbullet.env.age"
-    "vikunja.env.age"
-    "homepage.env.age"
-    "mealie.env.age"
-  ];
 in
-builtins.listToAttrs (
-  map (name: {
-    inherit name;
-    value = {
-      publicKeys = allKeys;
-    };
-  }) secrets
-)
+mkSecrets frost [
+  "pocket-id.env.age"
+  "wakapi.env.age"
+  "tududi.env.age"
+  "silverbullet.env.age"
+  "vikunja.env.age"
+  "homepage.env.age"
+  "mealie.env.age"
+]
+// mkSecrets puk [
+  "paperless.env.age"
+]

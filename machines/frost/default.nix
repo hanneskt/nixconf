@@ -41,6 +41,10 @@
         reverse_proxy kotpi:8123
       '';
 
+      "paper.klinckaert.be".extraConfig = ''
+        reverse_proxy kotpi:28981
+      '';
+
       "gallery.cruxkraft.eu".extraConfig = ''
         root /var/www/gallery
         file_server

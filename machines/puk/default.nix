@@ -29,13 +29,6 @@
     };
   };
 
-  # services.caddy = {
-  #   enable = true;
-  #   virtualHosts."ai.klinckaert.be".extraConfig = ''
-  #     reverse_proxy 127.0.0.1:9066
-  #   '';
-  # };
-
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
@@ -44,11 +37,7 @@
   nixpkgs.config.allowUnfree = true;
   hannes.services = {
     openssh.enable = true;
-
-    # n8n = {
-    #   enable = true;
-    #   domain = "n8n.puk.local";
-    # };
+    paperless.enable = true;
   };
 
   services.tailscale = {

@@ -12,6 +12,11 @@
 
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
+
+    betalog-src = {
+      url = "github:Topvennie/beta-log";
+      flake = false;
+    };
   };
 
   outputs =

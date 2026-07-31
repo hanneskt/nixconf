@@ -67,6 +67,8 @@
     wakapi.enable = true;
 
     mealie.enable = true;
+
+    betalog.enable = true;
   };
 
   nixpkgs.config.permittedInsecurePackages = [

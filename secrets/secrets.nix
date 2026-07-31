@@ -22,6 +22,7 @@ let
 
 in
 mkSecrets frost [
+  "betalog.env.age"
   "pocket-id.env.age"
   "wakapi.env.age"
   "tududi.env.age"

@@ -38,6 +38,7 @@
   hannes.services = {
     openssh.enable = true;
     paperless.enable = true;
+    dawarich.enable = true;
   };
 
   services.tailscale = {

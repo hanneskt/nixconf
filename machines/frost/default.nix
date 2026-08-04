@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -42,7 +42,11 @@
       '';
 
       "paper.klinckaert.be".extraConfig = ''
-        reverse_proxy kotpi:28981
+        reverse_proxy puk:28981
+      '';
+
+      "${config.hannes.services.pocket-id.domain}".extraConfig = ''
+        reverse_proxy puk:48204
       '';
 
       "gallery.cruxkraft.eu".extraConfig = ''

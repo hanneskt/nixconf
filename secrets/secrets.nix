@@ -32,5 +32,6 @@ mkSecrets frost [
   "mealie.env.age"
 ]
 // mkSecrets puk [
+  "dawarich.env.age"
   "paperless.env.age"
 ]

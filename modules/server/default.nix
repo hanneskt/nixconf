@@ -2,6 +2,7 @@
 {
   imports = [
     ./betalog.nix
+    ./dawarich.nix
     ./gatus.nix
     ./homepage.nix
     ./kuma.nix

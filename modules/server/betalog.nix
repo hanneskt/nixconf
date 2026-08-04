@@ -45,6 +45,7 @@ let
       inherit (finalAttrs) pname version src;
       fetcherVersion = 3;
       hash = "sha256-7jYAsuhj3bJEkff0YHaqHbrR0JccF4VpdOXp0i2BKas=";
+      PNPM_CONFIG_FETCH_TIMEOUT = "300000";
     };
 
     buildPhase = ''

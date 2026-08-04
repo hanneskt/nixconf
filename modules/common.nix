@@ -15,6 +15,8 @@
     };
   };
 
+  time.timeZone = "Europe/Brussels";
+
   nix.settings.trusted-users = [
     "root"
     "hannes"

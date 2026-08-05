@@ -41,11 +41,11 @@
         reverse_proxy kotpi:8123
       '';
 
-      "paper.klinckaert.be".extraConfig = ''
+      "${config.hannes.services.paperless.domain}".extraConfig = ''
         reverse_proxy puk:28981
       '';
 
-      "${config.hannes.services.pocket-id.domain}".extraConfig = ''
+      "${config.hannes.services.dawarich.domain}".extraConfig = ''
         reverse_proxy puk:48204
       '';
 

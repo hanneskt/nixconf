@@ -38,6 +38,9 @@ in
       settings = {
         ALLOW_SIGNUP = "false";
         ALLOW_PASSWORD_LOGIN = "true";
+        OIDC_ADMIN_GROUP = "admin";
+        # DEFAULT_GROUP = "";
+        # DEFAULT_HOUSEHOLD = "new";
         BASE_URL = "https://${cfg.domain}";
       };
     };

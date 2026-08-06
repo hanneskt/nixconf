@@ -12,6 +12,7 @@
     ./pocket-id.nix
     ./silverbullet.nix
     ./ssh.nix
+    ./sure.nix
     ./vikunja.nix
     ./wakapi.nix
   ];

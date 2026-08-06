@@ -34,4 +34,5 @@ mkSecrets frost [
 // mkSecrets puk [
   "dawarich.env.age"
   "paperless.env.age"
+  "sure.env.age"
 ]

@@ -39,6 +39,7 @@
     openssh.enable = true;
     paperless.enable = true;
     dawarich.enable = true;
+    sure.enable = true;
   };
 
   services.tailscale = {

@@ -42,11 +42,15 @@
       '';
 
       "${config.hannes.services.paperless.domain}".extraConfig = ''
-        reverse_proxy puk:28981
+        reverse_proxy puk:${toString config.hannes.services.paperless.port}
       '';
 
       "${config.hannes.services.dawarich.domain}".extraConfig = ''
-        reverse_proxy puk:48204
+        reverse_proxy puk:${toString config.hannes.services.dawarich.port}
+      '';
+
+      "${config.hannes.services.sure.domain}".extraConfig = ''
+        reverse_proxy puk:${toString config.hannes.services.sure.port}
       '';
 
       "gallery.cruxkraft.eu".extraConfig = ''

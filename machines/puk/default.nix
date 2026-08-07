@@ -40,6 +40,7 @@
     paperless.enable = true;
     dawarich.enable = true;
     sure.enable = true;
+    floppy.enable = true;
   };
 
   services.tailscale = {

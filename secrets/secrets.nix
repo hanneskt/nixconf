@@ -35,4 +35,5 @@ mkSecrets frost [
   "dawarich.env.age"
   "paperless.env.age"
   "sure.env.age"
+  "floppy.env.age"
 ]

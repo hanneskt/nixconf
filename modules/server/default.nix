@@ -3,6 +3,7 @@
   imports = [
     ./betalog.nix
     ./dawarich.nix
+    ./floppy.nix
     ./gatus.nix
     ./homepage.nix
     ./kuma.nix

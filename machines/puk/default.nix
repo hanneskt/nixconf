@@ -1,10 +1,19 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   imports = [
     ./hardware-configuration.nix
   ];
 
-  boot.initrd.kernelModules = [ "amdgpu" ];
+  boot = {
+    supportedFilesystems = [ "bcachefs" ];
+    initrd.kernelModules = [ "amdgpu" ];
+
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+  };
+
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
@@ -12,26 +21,36 @@
     ];
   };
 
-  services.ollama = {
-    enable = true;
-    package = pkgs.ollama-rocm;
-    rocmOverrideGfx = "10.3.0";
-  };
+  services = {
+    ollama = {
+      enable = true;
+      package = pkgs.ollama-rocm;
+      rocmOverrideGfx = "10.3.0";
+    };
 
-  services.open-webui = {
-    enable = true;
-    port = 9066;
-    host = "100.75.97.2";
+    open-webui = {
+      enable = true;
+      port = 9066;
+      host = "100.75.97.2";
 
-    environment = {
-      OLLAMA_API_BASE_URL = "http://127.0.0.1:11434";
-      WEBUI_AUTH = "False";
+      environment = {
+        OLLAMA_API_BASE_URL = "http://127.0.0.1:11434";
+        WEBUI_AUTH = "False";
+      };
+    };
+
+    tailscale = {
+      enable = true;
+      disableUpstreamLogging = true;
     };
   };
 
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+  fileSystems."/mnt/storage" = {
+    device = "UUID=17795ea9-d422-4e2d-8ace-4c3281cce0a9";
+    fsType = "bcachefs";
+    options = [
+      "nofail"
+    ];
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -41,16 +60,14 @@
     dawarich.enable = true;
     sure.enable = true;
     floppy.enable = true;
+    immich.enable = true;
   };
-
-  services.tailscale = {
-    enable = true;
-    disableUpstreamLogging = true;
-  };
+  environment.systemPackages = [ pkgs.bcachefs-tools ];
 
   networking.firewall.allowedTCPPorts = [
     80
     443
+    config.hannes.services.immich.port
   ];
 
   security.sudo.wheelNeedsPassword = false;

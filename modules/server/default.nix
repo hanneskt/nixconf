@@ -6,6 +6,7 @@
     ./floppy.nix
     ./gatus.nix
     ./homepage.nix
+    ./immich.nix
     ./kuma.nix
     ./mealie.nix
     ./n8n.nix

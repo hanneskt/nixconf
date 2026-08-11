@@ -36,4 +36,5 @@ mkSecrets frost [
   "paperless.env.age"
   "sure.env.age"
   "floppy.env.age"
+  "immich-oauth-secret.age"
 ]

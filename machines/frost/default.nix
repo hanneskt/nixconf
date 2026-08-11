@@ -57,6 +57,10 @@
         reverse_proxy puk:${toString config.hannes.services.floppy.port}
       '';
 
+      "${config.hannes.services.immich.domain}".extraConfig = ''
+        reverse_proxy puk:${toString config.hannes.services.immich.port}
+      '';
+
       "gallery.cruxkraft.eu".extraConfig = ''
         root /var/www/gallery
         file_server

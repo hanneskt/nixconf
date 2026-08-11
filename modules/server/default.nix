@@ -9,6 +9,7 @@
     ./immich.nix
     ./kuma.nix
     ./mealie.nix
+    ./moneymatter.nix
     ./n8n.nix
     ./paperless.nix
     ./pocket-id.nix

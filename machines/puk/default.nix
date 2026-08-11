@@ -61,6 +61,7 @@
     sure.enable = true;
     floppy.enable = true;
     immich.enable = true;
+    moneymatter.enable = true;
   };
   environment.systemPackages = [ pkgs.bcachefs-tools ];
 

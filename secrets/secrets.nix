@@ -37,4 +37,5 @@ mkSecrets frost [
   "sure.env.age"
   "floppy.env.age"
   "immich-oauth-secret.age"
+  "moneymatter.env.age"
 ]

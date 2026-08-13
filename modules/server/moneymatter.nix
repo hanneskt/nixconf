@@ -17,7 +17,7 @@ in
 
     domain = mkOption {
       type = types.str;
-      default = "budget.klinckaert.be";
+      default = "money.klinckaert.be";
     };
 
     port = mkOption {
@@ -99,8 +99,19 @@ in
             APPLICATION_PORT = "8081";
             APPLICATION_DB_HOST = "moneymatter-db";
             APPLICATION_DB_PORT = "5432";
+            APPLICATION_DB_USER = "budget";
             APPLICATION_DB_USERNAME = "budget";
+            APPLICATION_DB_NAME = "budget";
             APPLICATION_DB_DATABASE = "budget";
+            APPLICATION_DB_DIALECT = "postgres";
+            POSTGRES_USER = "budget";
+            POSTGRES_DB = "budget";
+            DB_USER = "budget";
+            DB_USERNAME = "budget";
+            PGHOST = "moneymatter-db";
+            PGPORT = "5432";
+            PGUSER = "budget";
+            PGDATABASE = "budget";
             APPLICATION_REDIS_HOST = "moneymatter-redis";
             CURRENCY_RATES_API_URL = "http://moneymatter-currency:8080";
             BETTER_AUTH_URL = "https://${cfg.domain}";
@@ -128,15 +139,15 @@ in
         moneymatter-fe = {
           image = "letehaha/budget-tracker-fe:latest";
           ports = [
-            "127.0.0.1:${toString cfg.port}:80"
+            "0.0.0.0:${toString cfg.port}:80"
           ];
           environment = {
             IS_SELF_HOST = "true";
             BACKEND_URL = "http://moneymatter-be:8081";
-            API_VER = "/api/v1";
           };
           extraOptions = [
             "--network=moneymatter"
+            "--cap-add=NET_BIND_SERVICE"
           ];
           dependsOn = [
             "moneymatter-be"

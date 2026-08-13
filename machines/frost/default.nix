@@ -61,10 +61,6 @@
         reverse_proxy puk:${toString config.hannes.services.immich.port}
       '';
 
-      "${config.hannes.services.moneymatter.domain}".extraConfig = ''
-        reverse_proxy puk:${toString config.hannes.services.moneymatter.port}
-      '';
-
       "gallery.cruxkraft.eu".extraConfig = ''
         root /var/www/gallery
         file_server

@@ -2,8 +2,7 @@
   description = "NixOS configurations";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     agenix.url = "github:ryantm/agenix";
     nix-index-database = {
@@ -15,7 +14,7 @@
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
 
     betalog-src = {
-      url = "github:Topvennie/beta-log";
+      url = "github:Topvennie/beta-log/d981ad6c2581f1da903aa37534b4b649ca74c3db";
       flake = false;
     };
   };

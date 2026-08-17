@@ -35,6 +35,10 @@ in
       host = "0.0.0.0";
       mediaLocation = "/mnt/storage/immich";
 
+      environment = {
+        DB_STORAGE_TYPE = "HDD";
+      };
+
       settings = {
         server.externalDomain = "https://${cfg.domain}";
 

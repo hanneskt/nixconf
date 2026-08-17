@@ -54,7 +54,6 @@
 
     vscode.fhs
     zed-editor
-    antigravity
     pika-backup
 
     # dev
@@ -65,6 +64,7 @@
     gnumake
     wakatime-cli
     github-desktop
+    claude-code
 
     # nix language servers
     nil

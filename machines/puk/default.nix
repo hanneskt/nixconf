@@ -26,12 +26,13 @@
       enable = true;
       package = pkgs.ollama-rocm;
       rocmOverrideGfx = "10.3.0";
+      host = "0.0.0.0";
     };
 
     open-webui = {
       enable = true;
       port = 9066;
-      host = "100.75.97.2";
+      host = "0.0.0.0";
 
       environment = {
         OLLAMA_API_BASE_URL = "http://127.0.0.1:11434";

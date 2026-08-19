@@ -16,6 +16,11 @@ in
       type = types.str;
       default = "panel.cruxkraft.eu";
     };
+
+    port = mkOption {
+      type = types.port;
+      default = 8000;
+    };
   };
 
   config = mkIf cfg.enable {
@@ -24,11 +29,9 @@ in
       443
     ];
 
-    services.caddy = {
-      enable = true;
-      virtualHosts."${cfg.domain}".extraConfig = ''
-        reverse_proxy 127.0.0.1:8000
-      '';
+    hannes.reverseProxy.services.pelicanpanel = {
+      domain = cfg.domain;
+      port = cfg.port;
     };
 
     virtualisation.docker.enable = true;

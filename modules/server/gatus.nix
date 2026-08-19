@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   lib,
   ...
@@ -9,34 +8,15 @@ with lib;
 let
   cfg = config.hannes.services.gatus;
 
-  allMachines = inputs.self.nixosConfigurations;
-  domainsByMachine = lib.mapAttrs (
-    machineName: sys:
-    if sys.config.services.caddy.enable then
-      let
-        ignoredSuffixes = [
-          ".local"
-          ".ts.net"
-        ];
-        isIgnored = domain: lib.any (suffix: lib.hasSuffix suffix domain) ignoredSuffixes;
-      in
-      lib.filter (domain: !isIgnored domain) (builtins.attrNames sys.config.services.caddy.virtualHosts)
-    else
-      [ ]
-  ) allMachines;
+  monitored = filter (e: e.svc.enable && e.svc.status) config.hannes.reverseProxy.endpoints;
 
-  groupedEndpoints = lib.flatten (
-    lib.mapAttrsToList (
-      machineName: domains:
-      map (domain: {
-        name = domain;
-        group = machineName;
-        url = "https://${domain}";
-        interval = "1m";
-        conditions = [ "[STATUS] == any(200, 401)" ];
-      }) domains
-    ) domainsByMachine
-  );
+  groupedEndpoints = map (e: {
+    name = e.svc.domain;
+    group = e.machineName;
+    url = "https://${e.svc.domain}";
+    interval = "5m";
+    conditions = [ "[STATUS] == any(200, 401)" ];
+  }) monitored;
 in
 {
   options.hannes.services.gatus = {

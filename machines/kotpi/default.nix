@@ -42,6 +42,13 @@
 
   hannes.services.openssh.enable = true;
 
+  # Home Assistant is proxied publicly by frost and shown on the status page,
+  # grouped under kotpi (the machine it runs on).
+  hannes.reverseProxy.services.homeassistant = {
+    domain = "kot.klinckaert.be";
+    port = 8123;
+  };
+
   services.home-assistant = {
     enable = true;
     extraComponents = [

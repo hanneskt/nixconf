@@ -37,36 +37,15 @@
     openFirewall = true;
 
     virtualHosts = {
-      "kot.klinckaert.be".extraConfig = ''
-        reverse_proxy kotpi:8123
-      '';
-
-      "${config.hannes.services.paperless.domain}".extraConfig = ''
-        reverse_proxy puk:${toString config.hannes.services.paperless.port}
-      '';
-
-      "${config.hannes.services.dawarich.domain}".extraConfig = ''
-        reverse_proxy puk:${toString config.hannes.services.dawarich.port}
-      '';
-
-      "${config.hannes.services.sure.domain}".extraConfig = ''
-        reverse_proxy puk:${toString config.hannes.services.sure.port}
-      '';
-
-      "${config.hannes.services.floppy.domain}".extraConfig = ''
-        reverse_proxy puk:${toString config.hannes.services.floppy.port}
-      '';
-
-      "${config.hannes.services.immich.domain}".extraConfig = ''
-        reverse_proxy puk:${toString config.hannes.services.immich.port}
-      '';
-
       "gallery.cruxkraft.eu".extraConfig = ''
         root /var/www/gallery
         file_server
       '';
     };
   };
+
+  # proxies services on other hosts through here
+  hannes.reverseProxy.isProxy = true;
 
   hannes.services = {
     openssh.enable = true;

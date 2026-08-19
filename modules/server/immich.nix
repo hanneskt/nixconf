@@ -28,6 +28,11 @@ in
   config = mkIf cfg.enable {
     age.secrets.${secretOauth}.file = "${inputs.self}/secrets/${secretOauth}.age";
 
+    hannes.reverseProxy.services.immich = {
+      domain = cfg.domain;
+      port = cfg.port;
+    };
+
     services.immich = {
       enable = true;
 

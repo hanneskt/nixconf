@@ -29,6 +29,11 @@ in
   config = mkIf cfg.enable {
     age.secrets.${secretEnv}.file = "${inputs.self}/secrets/${secretEnv}.age";
 
+    hannes.reverseProxy.services.sure = {
+      domain = cfg.domain;
+      port = cfg.port;
+    };
+
     systemd.services = {
       podman-network-sure_net = {
         path = [ pkgs.podman ];
@@ -151,12 +156,5 @@ in
         };
       };
     };
-
-    # services.caddy = {
-    #   enable = true;
-    #   virtualHosts."${cfg.domain}".extraConfig = ''
-    #     reverse_proxy 127.0.0.1:${toString cfg.port}
-    #   '';
-    # };
   };
 }

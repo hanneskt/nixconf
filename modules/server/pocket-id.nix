@@ -32,6 +32,11 @@ in
       group = "pocket-id";
     };
 
+    hannes.reverseProxy.services.pocket-id = {
+      domain = cfg.domain;
+      port = cfg.port;
+    };
+
     services.pocket-id = {
       enable = true;
       environmentFile = config.age.secrets.${secretEnv}.path;
@@ -43,13 +48,6 @@ in
         TRUST_PROXY = true;
         ANALYTICS_DISABLED = true;
       };
-    };
-
-    services.caddy = {
-      enable = true;
-      virtualHosts."${cfg.domain}".extraConfig = ''
-        reverse_proxy 127.0.0.1:${toString cfg.port}
-      '';
     };
   };
 }

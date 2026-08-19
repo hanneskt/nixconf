@@ -28,6 +28,11 @@ in
   config = mkIf cfg.enable {
     age.secrets.${secretEnv}.file = "${inputs.self}/secrets/${secretEnv}.age";
 
+    hannes.reverseProxy.services.floppy = {
+      domain = cfg.domain;
+      port = cfg.port;
+    };
+
     services.redis.servers.floppy = {
       enable = true;
       port = 6090;
@@ -65,12 +70,5 @@ in
         ];
       };
     };
-
-    # services.caddy = {
-    #   enable = true;
-    #   virtualHosts."${cfg.domain}".extraConfig = ''
-    #     reverse_proxy 127.0.0.1:${toString cfg.port}
-    #   '';
-    # };
   };
 }

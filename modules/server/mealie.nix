@@ -28,6 +28,11 @@ in
   config = mkIf cfg.enable {
     age.secrets.${secretEnv}.file = "${inputs.self}/secrets/${secretEnv}.age";
 
+    hannes.reverseProxy.services.mealie = {
+      domain = cfg.domain;
+      port = cfg.port;
+    };
+
     services.mealie = {
       enable = true;
 
@@ -43,13 +48,6 @@ in
         # DEFAULT_HOUSEHOLD = "new";
         BASE_URL = "https://${cfg.domain}";
       };
-    };
-
-    services.caddy = {
-      enable = true;
-      virtualHosts."${cfg.domain}".extraConfig = ''
-        reverse_proxy 127.0.0.1:${toString cfg.port}
-      '';
     };
   };
 }

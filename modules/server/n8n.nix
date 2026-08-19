@@ -24,6 +24,11 @@ in
   };
 
   config = mkIf cfg.enable {
+    hannes.reverseProxy.services.n8n = {
+      domain = cfg.domain;
+      port = cfg.port;
+    };
+
     services.n8n = {
       enable = true;
 
@@ -32,13 +37,6 @@ in
         WEBHOOK_URL = "https://${cfg.domain}";
         N8N_HOST = cfg.domain;
       };
-    };
-
-    services.caddy = {
-      enable = true;
-      virtualHosts."${cfg.domain}".extraConfig = ''
-        reverse_proxy 127.0.0.1:${toString cfg.port}
-      '';
     };
   };
 }

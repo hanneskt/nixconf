@@ -17,6 +17,11 @@ in
       type = types.str;
       default = "wings.frost.klinckaert.be";
     };
+
+    port = mkOption {
+      type = types.port;
+      default = 9000;
+    };
   };
 
   config = mkIf cfg.enable {
@@ -40,11 +45,9 @@ in
       ];
     };
 
-    services.caddy = {
-      enable = true;
-      virtualHosts."${cfg.domain}".extraConfig = ''
-        reverse_proxy 127.0.0.1:9000
-      '';
+    hannes.reverseProxy.services.wings = {
+      domain = cfg.domain;
+      port = cfg.port;
     };
 
     systemd.tmpfiles.rules = [

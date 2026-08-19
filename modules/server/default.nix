@@ -13,6 +13,7 @@
     ./n8n.nix
     ./paperless.nix
     ./pocket-id.nix
+    ./reverse-proxy.nix
     ./silverbullet.nix
     ./ssh.nix
     ./sure.nix

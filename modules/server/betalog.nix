@@ -82,6 +82,11 @@ in
   config = mkIf cfg.enable {
     age.secrets.${secretEnv}.file = "${inputs.self}/secrets/${secretEnv}.age";
 
+    hannes.reverseProxy.services.betalog = {
+      domain = cfg.domain;
+      port = cfg.port;
+    };
+
     services.postgresql = {
       enable = true;
       ensureDatabases = [ "betalog" ];
@@ -135,13 +140,6 @@ in
         Restart = "on-failure";
         RestartSec = "5s";
       };
-    };
-
-    services.caddy = {
-      enable = true;
-      virtualHosts."${cfg.domain}".extraConfig = ''
-        reverse_proxy 127.0.0.1:${toString cfg.port}
-      '';
     };
   };
 }

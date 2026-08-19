@@ -28,6 +28,11 @@ in
   config = mkIf cfg.enable {
     age.secrets.${secretEnv}.file = "${inputs.self}/secrets/${secretEnv}.age";
 
+    hannes.reverseProxy.services.homepage = {
+      domain = cfg.domain;
+      port = cfg.port;
+    };
+
     services.homepage-dashboard = {
       enable = true;
       environmentFiles = [ config.age.secrets.${secretEnv}.path ];
@@ -103,13 +108,6 @@ in
           ];
         }
       ];
-    };
-
-    services.caddy = {
-      enable = true;
-      virtualHosts."${cfg.domain}".extraConfig = ''
-        reverse_proxy 127.0.0.1:${toString cfg.port}
-      '';
     };
   };
 }

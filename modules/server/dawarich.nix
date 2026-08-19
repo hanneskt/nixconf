@@ -29,6 +29,11 @@ in
   config = mkIf cfg.enable {
     age.secrets.${secretEnv}.file = "${inputs.self}/secrets/${secretEnv}.age";
 
+    hannes.reverseProxy.services.dawarich = {
+      domain = cfg.domain;
+      port = cfg.port;
+    };
+
     services.dawarich = {
       enable = true;
 
@@ -48,12 +53,5 @@ in
         PLACE_VISITS_THROTTLE_SECONDS = "0.1";
       };
     };
-
-    # services.caddy = {
-    #   enable = true;
-    #   virtualHosts."${cfg.domain}".extraConfig = ''
-    #     reverse_proxy 127.0.0.1:${toString cfg.port}
-    #   '';
-    # };
   };
 }

@@ -28,6 +28,11 @@ in
   config = mkIf cfg.enable {
     age.secrets.${secretEnv}.file = "${inputs.self}/secrets/${secretEnv}.age";
 
+    hannes.reverseProxy.services.paperless = {
+      domain = cfg.domain;
+      port = cfg.port;
+    };
+
     services.paperless = {
       enable = true;
 
@@ -46,12 +51,5 @@ in
         PAPERLESS_REDIRECT_LOGIN_TO_SSO = true;
       };
     };
-
-    # services.caddy = {
-    #   enable = true;
-    #   virtualHosts."${cfg.domain}".extraConfig = ''
-    #     reverse_proxy 127.0.0.1:${toString cfg.port}
-    #   '';
-    # };
   };
 }

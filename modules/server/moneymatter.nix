@@ -29,6 +29,11 @@ in
   config = mkIf cfg.enable {
     age.secrets.${secretEnv}.file = "${inputs.self}/secrets/${secretEnv}.age";
 
+    hannes.reverseProxy.services.moneymatter = {
+      domain = cfg.domain;
+      port = cfg.port;
+    };
+
     systemd.services.moneymatter-network = {
       description = "network for moneymatter";
       after = [ "network.target" ];

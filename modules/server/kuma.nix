@@ -15,18 +15,16 @@ in
   };
 
   config = mkIf cfg.enable {
+    hannes.reverseProxy.services.kuma = {
+      domain = "uptime.klinckaert.be";
+      port = cfg.port;
+    };
+
     services.uptime-kuma = {
       enable = true;
       settings = {
         PORT = toString cfg.port;
       };
-    };
-
-    services.caddy = {
-      enable = true;
-      virtualHosts."uptime.klinckaert.be".extraConfig = ''
-        reverse_proxy 127.0.0.1:${toString cfg.port}
-      '';
     };
   };
 }
